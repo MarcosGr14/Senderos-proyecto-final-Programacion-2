@@ -443,6 +443,7 @@ h1 a {
 }
 
 /*Contenido*/
+/*PAGINA HOME*/
 .contenedor-principal {
     display: flex;
     align-items: flex-start;
@@ -672,7 +673,7 @@ h1 a {
     gap: 20px; 
 }
 
-/* Diseño de las "píldoras" de horas */
+/* Diseño de las cajas de horas */
 .horario-dias .dia {
     display: flex;
     flex-direction: column;
@@ -783,6 +784,7 @@ h1 a {
     color: var(--color-tarjeta); 
 }
 
+/*Pagina de catalgos*/
 /*Catalogo de senderos*/
 .contenedor-catalogo {
     max-width: 1200px;
@@ -878,6 +880,48 @@ h1 a {
 
 .btn-reservar-catalogo:hover {
     background-color: var(--color-tierra);
+}
+
+/*Tarjeta para proximamente*/
+.tarjeta-proximamente {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('../img/arbol.jpg') center/cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 350px; 
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    cursor: default; 
+}
+
+.tarjeta-proximamente:hover {
+   transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.contenido-proximamente {
+    color: #ffffff;
+}
+
+.icono-proximamente {
+    font-size: 3rem;
+    color: #8cc63f;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+
+.tarjeta-proximamente h3 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.tarjeta-proximamente p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 

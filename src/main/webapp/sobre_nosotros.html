@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SendaViva - Sobre Nosotros</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header class="header-fijo">
+        <div class="contenedor-logo">
+            <a href="index.html">
+                <img src="img/logo-sendavivaof.png" alt="Logo SendaViva" class="logo-oficial">
+            </a>
+            <h1>
+                <a href="index.html" style="text-decoration: none; color: inherit;">SendaViva</a>
+            </h1>
+        </div>
+        
+        <div class="contenedor-acciones">
+            <div class="redes-sociales">
+                <a href="#" title="Escríbenos en WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" title="Síguenos en Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+
+            <a href="jsp/login.jsp" class="btn-login-header">
+                <i class="fas fa-user-circle"></i> Entrar
+            </a>
+            
+            <form action="https://www.google.com/search" method="GET" target="_blank" class="form-busqueda">
+                <input type="text" name="q" placeholder="Buscar..." class="input-busqueda" required>
+                <button type="submit" class="btn-busqueda" title="Buscar en Google">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            
+            <button class="btn-menu" id="btn-menu" aria-label="Abrir Menú">
+                <span class="linea"></span>
+                <span class="linea"></span>
+                <span class="linea"></span>
+            </button>
+        </div>
+
+        <div class="overlay-menu" id="overlay"></div>
+
+        <nav class="menu-lateral" id="menu-lateral">
+            <button class="btn-cerrar" id="btn-cerrar" aria-label="Cerrar Menú">&times;</button>
+            <div class="cabecera-menu">
+                <img src="img/logo-sendavivaof.png" alt="Logo">
+                <div>
+                    <h3>SendaViva</h3>
+                    <span>Portal Administrativo</span>
+                </div>
+            </div>
+            <ul>
+                <li class="titulo-menu">Principal</li>
+                <li><a href="index.html"><span class="icono">🏠</span> Inicio</a></li>
+                <li><a href="dashboard_visitante.html"><span class="icono">🗺️</span> Catálogo de Senderos</a></li>
+                <li><a href="historial_visitante.html"><span class="icono">🎒</span> Mis Visitas</a></li>
+                <li class="titulo-menu">Nosotros</li>
+                <li><a href="sobre_nosotros.html" class="activo"><span class="icono">👨‍💻</span> El Equipo</a></li>
+                <li class="titulo-menu">Cuenta</li>
+                <li><a href="jsp/login.jsp"><span class="icono">👤</span> Iniciar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contenedor-nosotros">
+        <h2 class="titulo-seccion" style="text-align: center;">Equipo de Desarrollo</h2>
+        <p class="subtitulo-seccion">Conoce a los creadores detrás de la plataforma SendaViva, un proyecto desarrollado para la gestión de reservas naturales.</p>
+
+        <div class="contenedor-equipo">
+            
+            <article class="tarjeta-miembro">
+                <div class="caja-foto">
+                    <img src="img/foto-perfil1.jpg" alt="Foto Miembro 1" class="img-miembro">
+                </div>
+                <h3>[Tu Nombre y Apellido]</h3>
+                <p class="datos-academicos"><strong>Cédula:</strong> 8-000-0000</p>
+                <p class="datos-academicos"><strong>Carrera:</strong> Lic. en Desarrollo de Software - Universidad Tecnológica de Panamá</p>
+                <hr class="linea-divisoria">
+                <p class="experiencia-texto">
+                    Especialista en desarrollo web integrando HTML, CSS y JavaScript para el diseño frontend, con sólida experiencia en la construcción de la lógica backend utilizando Java, JSP y despliegue local en servidores Tomcat.
+                </p>
+            </article>
+
+            <article class="tarjeta-miembro">
+                <div class="caja-foto">
+                    <img src="img/foto-perfil2.jpg" alt="Foto Miembro 2" class="img-miembro">
+                </div>
+                <h3>[Nombre Compañero 2]</h3>
+                <p class="datos-academicos"><strong>Cédula:</strong> 8-000-0000</p>
+                <p class="datos-academicos"><strong>Carrera:</strong> Lic. en Desarrollo de Software - Universidad Tecnológica de Panamá</p>
+                <hr class="linea-divisoria">
+                <p class="experiencia-texto">
+                    Enfocado en el diseño de interfaces de usuario (UI) y experiencia de usuario (UX). Encargado de la estructuración de la base de datos relacional y la seguridad del control de acceso basado en roles.
+                </p>
+            </article>
+
+            <article class="tarjeta-miembro">
+                <div class="caja-foto">
+                    <img src="img/foto-perfil3.jpg" alt="Foto Miembro 3" class="img-miembro">
+                </div>
+                <h3>[Nombre Compañero 3]</h3>
+                <p class="datos-academicos"><strong>Cédula:</strong> 8-000-0000</p>
+                <p class="datos-academicos"><strong>Carrera:</strong> Lic. en Desarrollo de Software - Universidad Tecnológica de Panamá</p>
+                <hr class="linea-divisoria">
+                <p class="experiencia-texto">
+                    Desarrollador backend orientado a la conexión de base de datos MySQL con Java. Responsable del flujo de reservaciones de visitantes y el mantenimiento de las estadísticas de los senderos.
+                </p>
+            </article>
+
+            <article class="tarjeta-miembro">
+                <div class="caja-foto">
+                    <img src="img/foto-perfil4.jpg" alt="Foto Miembro 4" class="img-miembro">
+                </div>
+                <h3>[Nombre Compañero 4]</h3>
+                <p class="datos-academicos"><strong>Cédula:</strong> 8-000-0000</p>
+                <p class="datos-academicos"><strong>Carrera:</strong> Lic. en Desarrollo de Software - Universidad Tecnológica de Panamá</p>
+                <hr class="linea-divisoria">
+                <p class="experiencia-texto">
+                    Encargado del control de calidad (QA), aseguramiento del diseño responsivo en dispositivos móviles y documentación general del proyecto semestral.
+                </p>
+            </article>
+
+        </div>
+    </main>
+
+    <footer class="pie-pagina">
+        <div class="contenido-footer">
+            <nav class="menu-footer">
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="dashboard_visitante.html">Catálogo</a></li>
+                    <li><a href="sobre_nosotros.html">Nosotros</a></li>
+                    <li><a href="jsp/login.jsp">Iniciar Sesión</a></li>
+                    <li><a href="jsp/logout.jsp" style="color: #e74c3c; font-weight: 600;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+            <p>&copy; 2026 SendaViva - Gestión de Reservas Naturales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        const btnMenu = document.getElementById('btn-menu');
+        const btnCerrar = document.getElementById('btn-cerrar');
+        const menuLateral = document.getElementById('menu-lateral');
+        const overlay = document.getElementById('overlay');
+
+        function alternarMenu() {
+            menuLateral.classList.toggle('activo');
+            overlay.classList.toggle('activo');
+        }
+
+        btnMenu.addEventListener('click', alternarMenu);
+        btnCerrar.addEventListener('click', alternarMenu);
+        overlay.addEventListener('click', alternarMenu);
+    </script>
+</body>
+</html>

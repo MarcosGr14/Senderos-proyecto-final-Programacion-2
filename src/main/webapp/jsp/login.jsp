@@ -7,29 +7,55 @@
     <title>Senderos - Acceso y Registro</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <header class="header-fijo" style="background-color: var(--color-oscuro);">
+<!-- Parte superior, Logo, Nombre, Menu -->
+   <header class="header-fijo">
         <div class="contenedor-logo">
-            <img src="../img/logo.png" alt="Logo de Senderos" class="logo-img">
-            <h1>Senderos</h1>
+            <a href="index.html">
+                <img src="../img/logo-sendavivaof.png" alt="Logo SendaViva" class="logo-oficial">
+            </a>
+            <h1>
+                <a href="../index.html" style="text-decoration: none; color: inherit;">SendaViva</a>
+            </h1>
         </div>
         
-        <button class="btn-menu" id="btn-menu" aria-label="Abrir Menú">
-            <span class="linea"></span>
-            <span class="linea"></span>
-            <span class="linea"></span>
-        </button>
-
+     	 <div class="contenedor-acciones">
+            <!-- Iconos de redes sociales -->
+            <div class="redes-sociales">
+                <a href="#" title="Escríbenos en WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" title="Síguenos en Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            
+            
+            <!-- Boton de busqueda -->
+            <form action="https://www.google.com/search" method="GET" target="_blank" class="form-busqueda">
+                <input type="text" name="q" placeholder="Buscar..." class="input-busqueda" required>
+                <button type="submit" class="btn-busqueda" title="Buscar en Google">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            
+            <!-- Botón de Hamburguesa (3 rayas) -->
+            <button class="btn-menu" id="btn-menu" aria-label="Abrir Menú">
+                <span class="linea"></span>
+                <span class="linea"></span>
+                <span class="linea"></span>
+            </button>
+        </div>
+        
+		<!-- Capa oscura de fondo al abrir el menú -->
         <div class="overlay-menu" id="overlay"></div>
-
+        
+		<!-- Menú de Navegación Lateral -->
         <nav class="menu-lateral" id="menu-lateral">
             <button class="btn-cerrar" id="btn-cerrar" aria-label="Cerrar Menú">&times;</button>
             <div class="cabecera-menu">
-                <img src="../img/logo.png" alt="Logo">
+                <img src="../img/logo-sendavivaof.png" alt="Logo">
                 <div>
-                    <h3>Senderos</h3>
+                    <h3>SendaViva</h3>
                     <span>Portal Administrativo</span>
                 </div>
             </div>
@@ -38,14 +64,19 @@
                 <li><a href="../index.html"><span class="icono">🏠</span> Inicio</a></li>
                 <li><a href="dashboard_visitante.html"><span class="icono">🗺️</span> Catálogo de Senderos</a></li>
                 <li><a href="historial_visitante.html"><span class="icono">🎒</span> Mis Visitas</a></li>
+                <li class="titulo-menu">Nosotros</li>
+                <li><a href="../sobre_nosotros.html"><span class="icono">👨‍💻</span> El Equipo</a></li>
                 <li class="titulo-menu">Cuenta</li>
                 <li><a href="login.jsp" class="activo"><span class="icono">👤</span> Iniciar Sesión</a></li>
+                
             </ul>
         </nav>
     </header>
-
+    
+    <!-- Contenido Principal, Formulario -->
     <main style="max-width: 600px; margin: 120px auto 60px; padding: 0 20px; width: 100%;">
-        
+    
+        <!-- Iniciar sesion -->
         <div id="contenedor-login">
             <h2 class="titulo-seccion" style="text-align: left; margin-bottom: 20px;">Iniciar Sesión</h2>
             
@@ -58,12 +89,16 @@
 
                 <button type="submit" style="background-color: var(--color-primario); color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%;">Entrar</button>
             </form>
+
+            <p style="text-align: center; margin-top: 25px; font-size: 14px;">
+                ¿No está registrado? 
+                <a href="javascript:void(0);" onclick="mostrarRegistro()" style="color: var(--color-tierra); font-weight: bold; text-decoration: none;">Regístrese aquí</a>
+            </p>
         </div>
-
-        <hr style="margin: 40px 0; border: 0; border-top: 2px dashed #ccc;">
-
-        <div id="contenedor-registro">
-            <h2 class="titulo-seccion" style="text-align: left; margin-bottom: 20px; font-size: 26px;">¿No tiene cuenta? Regístrese</h2>
+        
+		<!-- Registrase -->
+        <div id="contenedor-registro" style="display: none;">
+            <h2 class="titulo-seccion" style="text-align: left; margin-bottom: 20px; font-size: 26px;">Crear una Cuenta</h2>
             
             <form action="ControladorRegistro" method="POST">
                 
@@ -108,46 +143,56 @@
                     <input type="text" id="detalle_discapacidad" name="detalle_discapacidad" style="width: 100%; padding: 10px; margin-top: 5px;">
                 </div>
 
-                <button type="submit" style="background-color: var(--color-tierra); color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%;">Enviar Información de Registro</button>
+                <button type="submit" style="background-color: var(--color-tierra); color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%;">Registrarme</button>
 
             </form>
+
+            <p style="text-align: center; margin-top: 25px; font-size: 14px;">
+                ¿Ya tiene una cuenta? 
+                <a href="javascript:void(0);" onclick="mostrarLogin()" style="color: var(--color-tierra); font-weight: bold; text-decoration: none;">Inicie sesión aquí</a>
+            </p>
         </div>
     </main>
-
-    <footer class="pie-pagina">
+    
+	 <!-- Footer-->
+     <footer class="pie-pagina">
         <div class="contenido-footer">
             <nav class="menu-footer">
                 <ul>
-                    <li><a href="/HTML/index.html">Inicio</a></li>
+                    <li><a href="../index.html">Inicio</a></li>
                     <li><a href="dashboard_visitante.html">Catálogo de Senderos</a></li>
                     <li><a href="historial_visitante.html">Mis Visitas</a></li>
-                    <li><a href="/JSP/login.jsp">Iniciar Sesión</a></li>
+                    <li><a href="../sobre_nosotros.html">Contactanos</a></li>
+                    <li><a href="logout.jsp" style="color: #e74c3c; font-weight: 600;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
                 </ul>
             </nav>
-            <p>&copy; 2026 Sistema de Gestión de Reservas Naturales y Senderos. Todos los derechos reservados.</p>
+            <!-- Copyright -->
+            <p>&copy; 2026 SendaViva - Gestión de Reservas Naturales. Todos los derechos reservados.</p>
             <div class="enlaces-footer">
                 <a href="#">Políticas de Privacidad</a> | <a href="#">Términos y Condiciones</a>
             </div>
         </div>
     </footer>
-
+    
     <script>
-        // SCRIPT DEL MENÚ HAMBURGUESA
+    <!-- JS PARA EL MENÚ HAMBURGUESA -->
         const btnMenu = document.getElementById('btn-menu');
         const btnCerrar = document.getElementById('btn-cerrar');
         const menuLateral = document.getElementById('menu-lateral');
         const overlay = document.getElementById('overlay');
-
+        
+        // Función para abrir y cerrar el menú
         function alternarMenu() {
             menuLateral.classList.toggle('activo');
             overlay.classList.toggle('activo');
         }
-
+        
+     	// Eventos
         btnMenu.addEventListener('click', alternarMenu);
         btnCerrar.addEventListener('click', alternarMenu);
         overlay.addEventListener('click', alternarMenu);
 
-        // SCRIPT DE LA DISCAPACIDAD
+        //Funcion para la seccion de discapacidad
         function manejarDiscapacidad(tieneDiscapacidad) {
             const caja = document.getElementById('caja_oculta_discapacidad');
             const inputDetalle = document.getElementById('detalle_discapacidad');
@@ -160,6 +205,19 @@
                 inputDetalle.required = false;
                 inputDetalle.value = '';
             }
+        }
+
+      //Cambiar de Login a refistro
+        function mostrarRegistro() {
+            // Oculta el login y muestra el registro
+            document.getElementById('contenedor-login').style.display = 'none';
+            document.getElementById('contenedor-registro').style.display = 'block';
+        }
+
+        function mostrarLogin() {
+            // Oculta el registro y muestra el login
+            document.getElementById('contenedor-registro').style.display = 'none';
+            document.getElementById('contenedor-login').style.display = 'block';
         }
     </script>
 </body>

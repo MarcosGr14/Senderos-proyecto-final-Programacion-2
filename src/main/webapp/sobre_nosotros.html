@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-
+ 
+ 	<!-- Parte superior, Logo, Nombre, Menu -->
     <header class="header-fijo">
         <div class="contenedor-logo">
             <a href="index.html">
@@ -25,11 +26,13 @@
                 <a href="#" title="Escríbenos en WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 <a href="#" title="Síguenos en Instagram"><i class="fab fa-instagram"></i></a>
             </div>
-
+			
+			<!-- Icono de Login/Entrar -->
             <a href="jsp/login.jsp" class="btn-login-header">
                 <i class="fas fa-user-circle"></i> Entrar
             </a>
             
+             <!-- Boton de busqueda -->
             <form action="https://www.google.com/search" method="GET" target="_blank" class="form-busqueda">
                 <input type="text" name="q" placeholder="Buscar..." class="input-busqueda" required>
                 <button type="submit" class="btn-busqueda" title="Buscar en Google">
@@ -37,15 +40,18 @@
                 </button>
             </form>
             
+            <!-- Botón de Hamburguesa (3 rayas) -->
             <button class="btn-menu" id="btn-menu" aria-label="Abrir Menú">
                 <span class="linea"></span>
                 <span class="linea"></span>
                 <span class="linea"></span>
             </button>
         </div>
-
+		
+		<!-- Capa oscura de fondo al abrir el menú -->
         <div class="overlay-menu" id="overlay"></div>
-
+		
+		<!-- Menú de Navegación Lateral -->
         <nav class="menu-lateral" id="menu-lateral">
             <button class="btn-cerrar" id="btn-cerrar" aria-label="Cerrar Menú">&times;</button>
             <div class="cabecera-menu">
@@ -67,13 +73,13 @@
             </ul>
         </nav>
     </header>
-
+	<!-- Contenedor con los miembros y su informacion -->
     <main class="contenedor-nosotros">
         <h2 class="titulo-seccion" style="text-align: center;">Equipo de Desarrollo</h2>
         <p class="subtitulo-seccion">Conoce a los creadores detrás de la plataforma SendaViva, un proyecto desarrollado para la gestión de reservas naturales.</p>
 
         <div class="contenedor-equipo">
-            
+            <!-- Miembro 1 -->
             <article class="tarjeta-miembro">
                 <div class="caja-foto">
                     <img src="img/foto-perfil1.jpg" alt="Foto Miembro 1" class="img-miembro">
@@ -86,7 +92,8 @@
                     Especialista en desarrollo web integrando HTML, CSS y JavaScript para el diseño frontend, con sólida experiencia en la construcción de la lógica backend utilizando Java, JSP y despliegue local en servidores Tomcat.
                 </p>
             </article>
-
+            
+			<!-- Miembro 2 -->
             <article class="tarjeta-miembro">
                 <div class="caja-foto">
                     <img src="img/foto-perfil2.jpg" alt="Foto Miembro 2" class="img-miembro">
@@ -99,7 +106,8 @@
                     Enfocado en el diseño de interfaces de usuario (UI) y experiencia de usuario (UX). Encargado de la estructuración de la base de datos relacional y la seguridad del control de acceso basado en roles.
                 </p>
             </article>
-
+            
+			<!-- Miembro 3 -->
             <article class="tarjeta-miembro">
                 <div class="caja-foto">
                     <img src="img/foto-perfil3.jpg" alt="Foto Miembro 3" class="img-miembro">
@@ -112,7 +120,8 @@
                     Desarrollador backend orientado a la conexión de base de datos MySQL con Java. Responsable del flujo de reservaciones de visitantes y el mantenimiento de las estadísticas de los senderos.
                 </p>
             </article>
-
+			
+			<!-- Miembro 4 -->
             <article class="tarjeta-miembro">
                 <div class="caja-foto">
                     <img src="img/foto-perfil4.jpg" alt="Foto Miembro 4" class="img-miembro">
@@ -128,7 +137,8 @@
 
         </div>
     </main>
-
+	
+	<!-- Footer-->
     <footer class="pie-pagina">
         <div class="contenido-footer">
             <nav class="menu-footer">
@@ -140,21 +150,26 @@
                     <li><a href="jsp/logout.jsp" style="color: #e74c3c; font-weight: 600;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
                 </ul>
             </nav>
+            
+            <!-- Copyright -->
             <p>&copy; 2026 SendaViva - Gestión de Reservas Naturales. Todos los derechos reservados.</p>
         </div>
     </footer>
-
+	
+	<!-- JS PARA EL MENÚ HAMBURGUESA -->
     <script>
         const btnMenu = document.getElementById('btn-menu');
         const btnCerrar = document.getElementById('btn-cerrar');
         const menuLateral = document.getElementById('menu-lateral');
         const overlay = document.getElementById('overlay');
-
+		
+     	// Función para abrir y cerrar el menú
         function alternarMenu() {
             menuLateral.classList.toggle('activo');
             overlay.classList.toggle('activo');
         }
-
+     	
+     	// Eventos
         btnMenu.addEventListener('click', alternarMenu);
         btnCerrar.addEventListener('click', alternarMenu);
         overlay.addEventListener('click', alternarMenu);

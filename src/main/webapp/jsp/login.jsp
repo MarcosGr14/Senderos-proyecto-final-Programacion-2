@@ -207,7 +207,7 @@
             }
         }
 
-      //Cambiar de Login a refistro
+      //Cambiar de Login a registro
         function mostrarRegistro() {
             // Oculta el login y muestra el registro
             document.getElementById('contenedor-login').style.display = 'none';

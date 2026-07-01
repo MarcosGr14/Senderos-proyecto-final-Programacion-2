@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+	//Sesion activa para que salga el nombre del usuario arriba
+    String nombreUsuario = (String) session.getAttribute("usuario");
+    boolean sesionIniciada = (nombreUsuario != null);
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SendaViva - Sobre Nosotros</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Iconos de Fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -13,26 +20,35 @@
  	<!-- Parte superior, Logo, Nombre, Menu -->
     <header class="header-fijo">
         <div class="contenedor-logo">
-            <a href="index.html">
+            <a href="index.jsp">
                 <img src="img/logo-sendavivaof.png" alt="Logo SendaViva" class="logo-oficial">
             </a>
             <h1>
-                <a href="index.html" style="text-decoration: none; color: inherit;">SendaViva</a>
+                <a href="index.jsp" style="text-decoration: none; color: inherit;">SendaViva</a>
             </h1>
         </div>
         
-        <div class="contenedor-acciones">
+        <!-- Acciones -->
+    	<div class="contenedor-acciones">
+            
+            <!-- Iconos de redes sociales traidos -->
             <div class="redes-sociales">
                 <a href="#" title="Escríbenos en WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 <a href="#" title="Síguenos en Instagram"><i class="fab fa-instagram"></i></a>
             </div>
-			
-			<!-- Icono de Login/Entrar -->
-            <a href="jsp/login.jsp" class="btn-login-header">
-                <i class="fas fa-user-circle"></i> Entrar
-            </a>
             
-             <!-- Boton de busqueda -->
+            <!-- Logica para que salga el nombre de usuario en vez de entrar si la sesion esta activa -->
+            <% if (sesionIniciada) { %>
+                <a href="#" class="btn-login-header" style="cursor: default;">
+                    <i class="fas fa-user-circle"></i> <%= nombreUsuario %>
+                </a>
+            <% } else { %>
+                <a href="jsp/login.jsp" class="btn-login-header">
+                    <i class="fas fa-user-circle"></i> Entrar
+                </a>
+            <% } %>
+            
+            <!-- Icono de busqueda, caja de texto y busqueda en Google -->
             <form action="https://www.google.com/search" method="GET" target="_blank" class="form-busqueda">
                 <input type="text" name="q" placeholder="Buscar..." class="input-busqueda" required>
                 <button type="submit" class="btn-busqueda" title="Buscar en Google">
@@ -40,12 +56,13 @@
                 </button>
             </form>
             
-            <!-- Botón de Hamburguesa (3 rayas) -->
+            <!-- Menu de navegacion 3 lineas -->
             <button class="btn-menu" id="btn-menu" aria-label="Abrir Menú">
                 <span class="linea"></span>
                 <span class="linea"></span>
                 <span class="linea"></span>
             </button>
+
         </div>
 		
 		<!-- Capa oscura de fondo al abrir el menú -->
@@ -61,15 +78,26 @@
                     <span>Portal Administrativo</span>
                 </div>
             </div>
-            <ul>
+            
+            <!-- Lista de todas las paginas que se pueden acceder en este manu de navegacion -->
+           <ul>
                 <li class="titulo-menu">Principal</li>
-                <li><a href="index.html"><span class="icono">🏠</span> Inicio</a></li>
-                <li><a href="dashboard_visitante.html"><span class="icono">🗺️</span> Catálogo de Senderos</a></li>
-                <li><a href="historial_visitante.html"><span class="icono">🎒</span> Mis Visitas</a></li>
+                <li><a href="index.jsp"><span class="icono">🏠</span> Inicio</a></li>
+                <li><a href="dashboard_visitante.jsp"><span class="icono">🗺️</span> Catálogo de Senderos</a></li>
+                <li><a href="historial_visitante.jsp"><span class="icono">🎒</span> Mis Visitas</a></li>
                 <li class="titulo-menu">Nosotros</li>
-                <li><a href="sobre_nosotros.html" class="activo"><span class="icono">👨‍💻</span> El Equipo</a></li>
+                <li><a href="sobre_nosotros.jsp"><span class="icono">👨‍💻</span> El Equipo</a></li>
+                
+                <!-- Logica de cambiar el iniciar sesion a un Hola User -->
                 <li class="titulo-menu">Cuenta</li>
-                <li><a href="jsp/login.jsp"><span class="icono">👤</span> Iniciar Sesión</a></li>
+                <% if (sesionIniciada) { %>
+                    <li style="padding: 10px 20px; color: var(--color-primario); font-weight: bold;">
+                        <span class="icono">👋</span> Hola, <%= nombreUsuario %>
+                    </li>
+                    <li><a href="jsp/logout.jsp" style="color: #e74c3c;"><span class="icono">🚪</span> Cerrar Sesión</a></li>
+                <% } else { %>
+                    <li><a href="jsp/login.jsp"><span class="icono">👤</span> Iniciar Sesión</a></li>
+                <% } %>
             </ul>
         </nav>
     </header>
@@ -135,21 +163,26 @@
                     Encargado del control de calidad (QA), aseguramiento del diseño responsivo en dispositivos móviles y documentación general del proyecto semestral.
                 </p>
             </article>
-
         </div>
     </main>
 	
 	<!-- Footer-->
     <footer class="pie-pagina">
         <div class="contenido-footer">
+        <!-- Menu de navegacion en el footer -->
             <nav class="menu-footer">
                 <ul>
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="dashboard_visitante.html">Catálogo</a></li>
-                    <li><a href="historial_visitante.html">Mis Visitas</a></li>
-                    <li><a href="sobre_nosotros.html">Nosotros</a></li>
-                    <li><a href="jsp/login.jsp">Iniciar Sesión</a></li>
-                    <li><a href="jsp/logout.jsp" style="color: #e74c3c; font-weight: 600;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                    <li><a href="index.jsp">Inicio</a></li>
+                    <li><a href="dashboard_visitante.jsp">Catálogo de Senderos</a></li>
+                    <li><a href="historial_visitante.jsp">Mis Visitas</a></li>
+                    <li><a href="sobre_nosotros.jsp">Contáctanos</a></li>
+                    
+                    <!-- Logica para la sesion activa cambiar el Iniciar sesion a Cerrar sesion -->
+                    <% if (sesionIniciada) { %>
+                        <li><a href="jsp/logout.jsp" style="color: #e74c3c; font-weight: 600;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                    <% } else { %>
+                        <li><a href="jsp/login.jsp">Iniciar Sesión</a></li>
+                    <% } %>
                 </ul>
             </nav>
             

@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+    // Sesion activa para que salga el nombre del usuario arriba
+    String nombreUsuario = (String) session.getAttribute("usuario");
+    boolean sesionIniciada = (nombreUsuario != null);
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +12,7 @@
     <title>Senderos - Inicio y Noticias</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <!-- Iconos de Fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -21,19 +28,26 @@
             </h1>
         </div>
         
-      <div class="contenedor-acciones">
-            
+        <!-- Acciones -->
+  		 <div class="contenedor-acciones">
+            <!-- Iconos de redes sociales traidos -->
             <div class="redes-sociales">
                 <a href="#" title="Escríbenos en WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 <a href="#" title="Síguenos en Instagram"><i class="fab fa-instagram"></i></a>
             </div>
             
-			<!-- Icono de Login/Entrar -->
-            <a href="jsp/login.jsp" class="btn-login-header">
-                <i class="fas fa-user-circle"></i> Entrar
-            </a>
+            <!-- Logica para que salga el nombre de usuario en vez de entrar si la sesion esta activa -->
+            <% if (sesionIniciada) { %>
+                <a href="#" class="btn-login-header" style="cursor: default;">
+                    <i class="fas fa-user-circle"></i> <%= nombreUsuario %>
+                </a>
+            <% } else { %>
+                <a href="jsp/login.jsp" class="btn-login-header">
+                    <i class="fas fa-user-circle"></i> Entrar
+                </a>
+            <% } %>
             
-            <!-- Boton de busqueda -->
+            <!-- Icono de busqueda, caja de texto y busqueda en Google -->
             <form action="https://www.google.com/search" method="GET" target="_blank" class="form-busqueda">
                 <input type="text" name="q" placeholder="Buscar..." class="input-busqueda" required>
                 <button type="submit" class="btn-busqueda" title="Buscar en Google">
@@ -41,7 +55,7 @@
                 </button>
             </form>
             
-            <!-- Botón de Hamburguesa (3 rayas) -->
+            <!-- Menu de navegacion 3 lineas -->
             <button class="btn-menu" id="btn-menu" aria-label="Abrir Menú">
                 <span class="linea"></span>
                 <span class="linea"></span>
@@ -53,9 +67,9 @@
 		<!-- Capa oscura de fondo al abrir el menú -->
         <div class="overlay-menu" id="overlay"></div>
 
-        <!-- Menú de Navegación Lateral -->
+        <!-- Menú de Navegacion Lateral -->
      <nav class="menu-lateral" id="menu-lateral">
-            <button class="btn-cerrar" id="btn-cerrar" aria-label="Cerrar Menú">&times;</button>
+            <button class="btn-cerrar" id="btn-cerrar" aria-label="Cerrar Menu">&times;</button>
             
             <div class="cabecera-menu">
                 <img src="img/logo-sendavivaof.png" alt="Logo">
@@ -64,16 +78,26 @@
                     <span>Portal Administrativo</span>
                 </div>
             </div>
-
-            <ul>
+			
+		<!-- Lista de todas las paginas que se pueden acceder en este manu de navegacion -->
+           <ul>
                 <li class="titulo-menu">Principal</li>
-                <li><a href="index.html" class="activo"><span class="icono">🏠</span> Inicio</a></li>
-                <li><a href="dashboard_visitante.html"><span class="icono">🗺️</span> Catálogo de Senderos</a></li>
-                <li><a href="historial_visitante.html"><span class="icono">🎒</span> Mis Visitas</a></li>
+                <li><a href="index.jsp"><span class="icono">🏠</span> Inicio</a></li>
+                <li><a href="dashboard_visitante.jsp"><span class="icono">🗺️</span> Catálogo de Senderos</a></li>
+                <li><a href="historial_visitante.jsp"><span class="icono">🎒</span> Mis Visitas</a></li>
                 <li class="titulo-menu">Nosotros</li>
-                <li><a href="sobre_nosotros.html"><span class="icono">👨‍💻</span> El Equipo</a></li>
+                <li><a href="sobre_nosotros.jsp"><span class="icono">👨‍💻</span> El Equipo</a></li>
+                
+                <!-- Logica de cambiar el iniciar sesion a un Hola User -->
                 <li class="titulo-menu">Cuenta</li>
-                <li><a href="jsp/login.jsp"><span class="icono">👤</span> Iniciar Sesión</a></li>
+                <% if (sesionIniciada) { %>
+                    <li style="padding: 10px 20px; color: var(--color-primario); font-weight: bold;">
+                        <span class="icono">👋</span> Hola, <%= nombreUsuario %>
+                    </li>
+                    <li><a href="jsp/logout.jsp" style="color: #e74c3c;"><span class="icono">🚪</span> Cerrar Sesión</a></li>
+                <% } else { %>
+                    <li><a href="jsp/login.jsp"><span class="icono">👤</span> Iniciar Sesión</a></li>
+                <% } %>
             </ul>
         </nav>
     </header>
@@ -81,7 +105,7 @@
     <!-- Banner de inicio con imagen-->
     <section class="hero">
         <div class="contenido-hero">
-            <h2>Bienvenido a la Naturaleza y Senderos de Panama</h2>
+            <h2>Bienvenido a la Naturaleza y Senderos de Panamá</h2>
             <p>Descubre, explora y conecta con las reservas naturales más impresionantes. Reserva tu recorrido guiado y vive la experiencia.</p>
         </div>
         
@@ -100,8 +124,9 @@
             <div class="banner-publicidad">
                 <h3>¡Reserva tu recorrido ya!</h3>
             </div>
-            
+            <!-- Breve invitacion a reservar los senderos disponibles -->
             <ul class="lista-senderos">
+            	<!-- Primer sendero -->
                 <li>
                     <strong>Sendero Momótides: la Selva a tu Alcance </strong>
                     <span>Lugar: Parque Natural Metropolitano.
@@ -109,19 +134,25 @@
                             Dificultad: baja.
                     </span>
                 </li>
+                
+                <!-- Segundo sendero -->
                 <li>
                     <strong>Circuito Los Caobos - El Roble: en Medio de Gigantes</strong>
                     <span>Lugar: Parque Natural Metropolitano.
                             Distancia: 1,45 km (0,9 millas).<br>
                             Dificultad: moderada.</span>
                 </li>
+                
+                <!-- Tercer sendero -->
                 <li>
-                    <strong>Circuito la Cienaguita - Mono Tití y Cerro Cedro: Mirador de 360º</strong>
+                    <strong>Circuito la Cienaguita - Mirador y Cerro Cedro: Mirador de 360º</strong>
                     <span>Lugar: Parque Natural Metropolitano.
                             Distancia: 2,8 km (1,74 millas).<br>
                             Dificultad: moderada.
                     </span>
                 </li>
+                
+                <!-- Cuarto sendero -->
                 <li>
                     <strong>Sendero del Cerro Ancón: el Icónico</strong>
                     <span>Lugar: Corregimiento de Ancón.
@@ -129,6 +160,8 @@
                             Dificultad: baja.
                     </span>
                 </li>
+                
+                <!-- Quinto sendero -->
                 <li>
                     <strong>Camino del Oleoducto o Pipeline Road</strong>
                     <span>Lugar: Parque Nacional Soberanía.
@@ -137,7 +170,8 @@
                     </span>
                 </li>
             </ul>
-
+			
+			<!-- Boton de reserva para ir a la pagina de realizar reservas -->
             <a href="dashboard_visitante.html" class="btn-reservar-sidebar">Ver Disponibilidad</a>
         </aside>
 
@@ -153,7 +187,7 @@
                         <span class="etiqueta">Observación</span>
                         <h3>Panamá celebró este sábado el Global Big Day</h3>
                         <p>Cientos de observadores recorrieron parques, bosques y comunidades rurales, reafirmando al país como destino imprescindible para la observación de aves.</p>
-                        <a href="https://www.prensa.com/" target="_blank" class="enlace-fuente">Leer noticia completa ↗</a>
+                        <a href="https://www.prensa.com/" target="_blank" class="enlace-fuente">Leer noticia completa</a>
                     </div>
                 </article>
                 
@@ -163,8 +197,8 @@
                     <div class="contenido-tarjeta">
                         <span class="etiqueta">Conservación</span>
                         <h3>"Pacto de Panamá con la Naturaleza"</h3>
-                        <p>El Ministerio de Ambiente inició el proceso de consulta pública para el documento borrador. La iniciativa busca la participación ciudadana.</p>
-                        <a href="https://www.tvn-2.com/" target="_blank" class="enlace-fuente">Leer noticia completa ↗</a>
+                        <p>El Ministerio de Ambiente iniciÃ³ el proceso de consulta pública para el documento borrador. La iniciativa busca la participación ciudadana.</p>
+                        <a href="https://www.tvn-2.com/" target="_blank" class="enlace-fuente">Leer noticia completa â</a>
                     </div>
                 </article>
                 
@@ -175,7 +209,7 @@
                         <span class="etiqueta video">Video</span>
                         <h3>La Naturaleza Nos Habla | Salma Hayek</h3>
                         <p>Artistas unieron esfuerzos para darle una voz a la naturaleza y concientizar sobre la conservación de nuestros ecosistemas.</p>
-                        <a href="https://www.youtube.com/watch?v=wTkMFSgqi1I" target="_blank" class="enlace-fuente">Descubre más ↗</a>
+                        <a href="https://www.youtube.com/watch?v=wTkMFSgqi1I" target="_blank" class="enlace-fuente">Descubre más</a>
                     </div>
                 </article>
             </div>
@@ -183,17 +217,18 @@
             <!--Horario de atencion-->
              <div class="horario-banner">
                 <div class="horario-titulo">
-                    <h4>🕒 Horario de Atención</h4>
-                    <span class="nota">*Último ingreso 2 horas antes del cierre.</span>
+                    <h4>Horario de Atencion</h4>
+                    <span class="nota">Ultimo ingreso 2 horas antes del cierre.</span>
                 </div>
                 
+                <!-- Caja de horario de atencion -->
                 <div class="horario-dias">
                     <div class="dia">
                         <strong>Lunes - Viernes</strong>
                         <span>8:00 AM - 4:00 PM</span>
                     </div>
                     <div class="dia">
-                        <strong>Sábados - Domingos</strong>
+                        <strong>Sabados - Domingos</strong>
                         <span>7:00 AM - 5:00 PM</span>
                     </div>
                 </div>
@@ -204,21 +239,27 @@
     <!-- Footer-->
    <footer class="pie-pagina">
         <div class="contenido-footer">
+        <!-- Menu de navegacion en el footer -->
             <nav class="menu-footer">
                 <ul>
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="dashboard_visitante.html">Catálogo de Senderos</a></li>
-                    <li><a href="historial_visitante.html">Mis Visitas</a></li>
-                    <li><a href="sobre_nosotros.html">Contactanos</a></li>
-                    <li><a href="jsp/login.jsp">Iniciar Sesión</a></li>
-                    <li><a href="jsp/logout.jsp" style="color: #e74c3c; font-weight: 600;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                    <li><a href="index.jsp">Inicio</a></li>
+                    <li><a href="dashboard_visitante.jsp">Catálogo de Senderos</a></li>
+                    <li><a href="historial_visitante.jsp">Mis Visitas</a></li>
+                    <li><a href="sobre_nosotros.jsp">Contáctanos</a></li>
+                    
+                    <!-- Logica para la sesion activa cambiar el Iniciar sesion a Cerrar sesion -->
+                    <% if (sesionIniciada) { %>
+                        <li><a href="jsp/logout.jsp" style="color: #e74c3c; font-weight: 600;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                    <% } else { %>
+                        <li><a href="jsp/login.jsp">Iniciar Sesión</a></li>
+                    <% } %>
                 </ul>
             </nav>
             
             <!-- Copyright -->
             <p>&copy; 2026 SendaViva - Gestión de Reservas Naturales. Todos los derechos reservados.</p>
             <div class="enlaces-footer">
-                <a href="#">Políticas de Privacidad</a> | <a href="#">Términos y Condiciones</a>
+                <a href="#">Políticas de Privacidad</a> | <a href="#">Trminos y Condiciones</a>
             </div>
         </div>
     </footer>

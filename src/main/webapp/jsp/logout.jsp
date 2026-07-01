@@ -1,3 +1,5 @@
+<!-- JSP Para cerrar la sesion del usuario y te manda a Login -->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     // 1. Verificamos si existe una sesión activa y la destruimos
@@ -8,3 +10,4 @@
     // 2. Redirigimos al usuario a la página de login
     response.sendRedirect("login.jsp");
 %>
+<!-- Funciona en el cerrar sesion del menu de navegacion y el del footer -->

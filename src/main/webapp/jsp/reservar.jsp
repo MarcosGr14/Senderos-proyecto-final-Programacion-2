@@ -325,7 +325,6 @@
             }, 2500);
         });
 
-        // MODIFICACIÓN FINAL: Al cerrar el modal con éxito, el JS envía el formulario al servidor Java
         function cerrarModalStatus(fueExitoso) {
             modal.classList.remove('activo');
             if(fueExitoso) {

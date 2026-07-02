@@ -25,9 +25,12 @@
             
             int rol = rs.getInt("id_rol");
             
+        	// Guardamos el rol en la sesión para que el dashboard lo pueda leer
+            session.setAttribute("id_rol", String.valueOf(rol));
+            
             // Redirigimos según el rol (Visitantes y Admin)
             if (rol == 1) {
-                response.sendRedirect("../index.jsp"); // Admin
+                response.sendRedirect("../dashboard_admin.jsp"); // Admin
             } else {
                 response.sendRedirect("../dashboard_visitante.jsp"); // Visitante
             }

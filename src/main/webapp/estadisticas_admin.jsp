@@ -1,16 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="true" %>
+<%@ page import="java.sql.*" %>
 <%
-    // SEGURIDAD EXTREMA: Bloqueo de página seguro
+    // SEGURIDAD: Verificar que sea Admin
     Object usuarioObj = session.getAttribute("id_usuario");
     Object rolObj = session.getAttribute("id_rol");
-
-    // Si no hay usuario, O si no hay rol guardado, O si el rol NO es 1 (Admin), lo expulsamos.
     if (usuarioObj == null || rolObj == null || !"1".equals(rolObj.toString())) {
         response.sendRedirect("jsp/login.jsp");
         return;
     }
-
     String nombreUsuario = (String) session.getAttribute("usuario");
+
+    // VARIABLES PARA LAS ESTADÍSTICAS
+    double ingresosTotales = 0;
+    int ventasTotales = 0;
+    int senderosActivos = 0;
+
+    Connection conn = null;
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SendaVivaDB", "root", "");
+        
+        // CONSULTA 1: Ganancias y Total de compras (Usando 'reservaciones' y 'total_pago')
+        String sqlTotales = "SELECT SUM(total_pago) AS dinero_ganado, COUNT(id_reserva) AS total_compras FROM reservaciones";
+        Statement stmtTotales = conn.createStatement();
+        ResultSet rsTotales = stmtTotales.executeQuery(sqlTotales);
+        if (rsTotales.next()) {
+            ingresosTotales = rsTotales.getDouble("dinero_ganado");
+            ventasTotales = rsTotales.getInt("total_compras");
+        }
+        
+        // CONSULTA 2: Senderos activos
+        String sqlSenderos = "SELECT COUNT(DISTINCT sendero) AS cant_senderos FROM reservaciones";
+        Statement stmtSenderos = conn.createStatement();
+        ResultSet rsSenderos = stmtSenderos.executeQuery(sqlSenderos);
+        if (rsSenderos.next()) {
+            senderosActivos = rsSenderos.getInt("cant_senderos");
+        }
+    } catch (Exception e) {
+        System.out.println("Error DB: " + e.getMessage());
+    }
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -64,7 +92,7 @@
         <div class="overlay-menu" id="overlay"></div>
 
         <!-- Menú de Navegacion Lateral -->
-       <nav class="menu-lateral" id="menu-lateral">
+        <nav class="menu-lateral" id="menu-lateral">
             <button class="btn-cerrar" id="btn-cerrar" aria-label="Cerrar Menu">&times;</button>
             
             <div class="cabecera-menu">
@@ -79,7 +107,7 @@
             <ul>
                 <li class="titulo-menu">Gestión Operativa</li>
                 <li><a href="dashboard_admin.jsp"><span class="icono">📋</span> Dashboard Principal</a></li>
-                <li><a href="estadisticas_admin.jsp"><span class="icono">📈</span> Estadísticas</a></li>
+                <li><a href="#"><span class="icono">📈</span> Estadísticas (Próximamente)</a></li>
                 
                 <li class="titulo-menu">Sitio Público</li>
                 <li><a href="index.jsp" target="_blank"><span class="icono">🌍</span> Ver Página Principal</a></li>
@@ -93,129 +121,122 @@
             </ul>
         </nav>
     </header>
-
-    <!-- CONTENEDOR PRINCIPAL DEL DASHBOARD -->
-    <main class="contenedor-dashboard">
-        
-        <div class="card">
-            
-            <!-- NAVEGACIÓN DE LAS PESTAÑAS -->
-            <div class="tabs-header">
-                <button class="tab-btn activo" onclick="abrirTab(event, 'tab-boletin')">
-                    <i class="fas fa-bullhorn"></i> Boletín
-                </button>
-                <button class="tab-btn" onclick="abrirTab(event, 'tab-tareas')">
-                    <i class="fas fa-tasks"></i> Objetivos Mensuales
-                </button>
-                <button class="tab-btn" onclick="abrirTab(event, 'tab-guias')">
-                    <i class="fas fa-users"></i> Turnos de Guías
-                </button>
-            </div>
-
-            <!-- CONTENIDO 1: BOLETÍN (Visible por defecto) -->
-            <div id="tab-boletin" class="tab-content activo">
-            
-            	<!-- Noticia 1 -->
-                <div class="noticia">
-                    <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Mantenimiento">
-                    <div>
-                        <h4>Mantenimiento en Sendero Momótides</h4>
-                        <p>Cierre parcial este viernes por trabajos de poda y limpieza de escombros en el kilómetro 2. Favor informar a los visitantes.</p>
-                        <span class="fecha-noticia"><i class="far fa-clock"></i> Publicado: Hace 2 horas por Gerencia</span>
-                    </div>
-                </div>
-                
-                <!-- Noticia 2 -->
-                <div class="noticia">
-                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Clima">
-                    <div>
-                        <h4>Alerta Meteorológica: Lluvias Fuertes</h4>
-                        <p>Se esperan tormentas eléctricas para el fin de semana. Protocolo de evacuación rápida activado para el Circuito Los Caobos.</p>
-                        <span class="fecha-noticia"><i class="far fa-clock"></i> Publicado: Ayer por Seguridad</span>
-                    </div>
-                </div>
-                
-                <!-- Noticia 3 -->
-                <div class="noticia">
-                    <img src="https://images.unsplash.com/photo-1542907299-8bd21f11f540?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Clima">
-                    <div>
-                        <h4>Reapertura del puente en La Cienaguita</h4>
-                        <p>El equipo de guardaparques ha finalizado con éxito la reparación de los barandales y el puente colgante en el Circuito La Cienaguita. La ruta vuelve a operar con su capacidad máxima para las reservas de este fin de semana.</p>
-                        <span class="fecha-noticia"><i class="far fa-clock"></i> Publicado: hace 30 minutos</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CONTENIDO 2: TAREAS -->
-            <div id="tab-tareas" class="tab-content">
-                <ul class="lista-tareas">
-                    <li><input type="checkbox"> <span>Revisión de botiquines.</span></li>
-                    <li><input type="checkbox"> <span>Actualización de mapas GPS.</span></li>
-                    <li><input type="checkbox"> <span>Reparar barandal en La Cienaguita.</span></li>
-                    <li><input type="checkbox"> <span>Inventario de radios de comunicación.</span></li>
-                    <li><input type="checkbox"> <span>Reunión de staff mensual (Viernes 4PM).</span></li>
-                    <li><input type="checkbox"> <span>Limpieza profunda zona de camping.</span></li>
-                </ul>
-            </div>
-
-            <!-- CONTENIDO 3: GUÍAS -->
-            <div id="tab-guias" class="tab-content">
-                <table class="tabla-guias">
-                    <thead>
-                        <tr>
-                            <th>Guía Asignado</th>
-                            <th>Sendero / Ruta</th>
-                            <th>Día</th>
-                            <th>Fecha</th>
-                            <th>Turno</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    
-                    <!-- Guias turisticas y sus horarios -->
-                    <tbody>
-                    	<!-- Guia 1 -->
-                        <tr>
-                            <td><strong>Carlos Mendoza</strong></td>
-                            <td>Circuito Los Caobos</td>
-                            <td><span class="tag-dia">Lunes</span></td>
-                            <td>2026-07-06</td>
-                            <td>08:00 AM - 02:00 PM</td>
-                            <td style="color: #2ecc71; font-weight: bold;"><i class="fas fa-check-circle"></i> Confirmado</td>
-                        </tr>
-                        <!-- Guia 2 -->
-                        <tr>
-                            <td><strong>Ana Patricia Ríos</strong></td>
-                            <td>Sendero Momótides</td>
-                            <td><span class="tag-dia">Martes</span></td>
-                            <td>2026-07-07</td>
-                            <td>06:00 AM - 12:00 PM</td>
-                            <td style="color: #2ecc71; font-weight: bold;"><i class="fas fa-check-circle"></i> Confirmado</td>
-                        </tr>
-                        <!-- Guia 3 -->
-                        <tr>
-                            <td><strong>Miguel Lopez</strong></td>
-                            <td>Sendero de Cerro Ancon</td>
-                            <td><span class="tag-dia">Miercoles</span></td>
-                            <td>2026-07-07</td>
-                            <td>06:00 AM - 12:00 PM</td>
-                            <td style="color: #2ecc71; font-weight: bold;"><i class="fas fa-check-circle"></i> Confirmado</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </div> 
-    </main>
     
-	<!-- Footer (Versión Administrativa) -->
+    <!-- CONTENIDO DE ESTADÍSTICAS -->
+    <main class="contenedor-dashboard">
+        <div class="cabecera-estadisticas">
+            <h2><i class="fas fa-chart-line"></i> Resumen de Ventas y Rendimiento</h2>
+            <p>Métricas de ingresos y popularidad de nuestros senderos generadas en tiempo real.</p>
+        </div>
+
+        <!-- KPIs DINÁMICOS -->
+        
+        <!-- Tarjeta 1 Ingresos-->
+        <div class="grid-kpis">
+            <div class="card-kpi">
+                <div class="kpi-icono" style="color: #2ecc71; background: #e8f8f5;">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="kpi-info">
+                    <h3>$<%= String.format("%.2f", ingresosTotales) %></h3>
+                    <p>Ingresos Totales</p>
+                </div>
+            </div>
+            
+            <!-- Tarjeta 2 Senderos comprados -->
+            <div class="card-kpi">
+                <div class="kpi-icono" style="color: #3498db; background: #ebf5fb;">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="kpi-info">
+                    <h3><%= ventasTotales %></h3>
+                    <p>Senderos Comprados</p>
+                </div>
+            </div>
+            
+            <!-- Tarjeta 3 Catalogo activo -->
+            <div class="card-kpi">
+                <div class="kpi-icono" style="color: #f39c12; background: #fef5e7;">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="kpi-info">
+                    <h3><%= senderosActivos %></h3>
+                    <p>Catálogo Activo</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tarjeta 4 Visual -->
+            <div class="card-kpi">
+                <div class="kpi-icono" style="color: #e74c3c; background: #fdedec;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="kpi-info">
+                    <h3>3</h3>
+                    <p>Guias Activos</p>
+                </div>
+            </div><br><br>
+
+        <!-- BARRAS DE PROGRESO DINÁMICAS (VENTAS POR SENDERO) -->
+        <div class="grid-graficos">
+            <div class="card card-grafico">
+                <h3><i class="fas fa-trophy" style="color: #f1c40f;"></i> Ventas por Sendero</h3>
+                
+                <%
+                if (conn != null) {
+                    try {
+                        String sqlTop = "SELECT sendero AS nombre_sendero, COUNT(id_reserva) AS compras_del_sendero " +
+                                        "FROM reservaciones " +
+                                        "GROUP BY sendero " +
+                                        "ORDER BY compras_del_sendero DESC";
+                                        
+                        Statement stmtTop = conn.createStatement();
+                        ResultSet rsTop = stmtTop.executeQuery(sqlTop);
+                        
+                        String[] colores = {"#2ecc71", "#3498db", "#f39c12", "#9b59b6", "#e74c3c"};
+                        int colorIndex = 0;
+                        
+                        while (rsTop.next()) {
+                            String nombre = rsTop.getString("nombre_sendero");
+                            int cantCompras = rsTop.getInt("compras_del_sendero");
+                            
+                            int porcentajeVisual = (ventasTotales > 0) ? (cantCompras * 100) / ventasTotales : 0;
+                            String colorActual = colores[colorIndex % colores.length];
+                %>
+                
+                <div class="item-progreso">
+                    <div class="progreso-info">
+                        <span><%= nombre %></span>
+                        <span><%= cantCompras %> compras (<%= porcentajeVisual %>%)</span>
+                    </div>
+                    <div class="barra-fondo">
+                        <div class="barra-relleno" style="width: <%= porcentajeVisual %>%; background-color: <%= colorActual %>;"></div>
+                    </div>
+                </div>
+                
+                <%
+                            colorIndex++;
+                        } // Cierre del while
+                    } catch (Exception e) {
+                        out.print("<p style='color:red;'>Error cargando el gráfico: " + e.getMessage() + "</p>");
+                    } finally {
+                        conn.close(); 
+                    } // Cierre del try-catch-finally
+                } // Cierre del if (conn != null)
+                %>
+            </div>
+        </div>
+    </main>
+   
+    
+    <!-- Footer (Versión Administrativa) -->
     <footer class="pie-pagina">
         <div class="contenido-footer">
             <!-- Menu de navegacion interno en el footer -->
             <nav class="menu-footer">
                 <ul>
                     <li><a href="dashboard_admin.jsp">Dashboard Operativo</a></li>
-                    <li><a href="estadisticas_admin.jsp">Estadísticas</a></li>
+                    <li><a href="#">Estadísticas</a></li>
                     <li><a href="index.jsp" target="_blank">Ver Sitio Público</a></li>
                     <li><a href="sobre_nosotros.jsp">Contacto</a></li>
                     
